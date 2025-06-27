@@ -21,12 +21,14 @@ node src/index.js [--prisoners <number>] [--strategy <number>] [--factor <number
 
 ## Parameters
 
-prisoners: number of prisoners (default=143)
-strategy (default=1): 
-    1: No optimizations
-    2: Stop decrementing count when prisoner's count > prisoners/2
-    3: Delay decrementing. based on count/factor
-    4: Combination of 2 and 3
+prisoners: number of prisoners (default=143)  
+
+strategy (default=1):  
+   1: No optimizations  
+   2: Stop decrementing count when prisoner's count > prisoners/2  
+   3: Delay decrementing. based on count/factor  
+   4: Combination of 2 and 3  
+   
 factor: controls amount of delay, lower numbers delay more (min=1, default=4)
 
 ## Example
