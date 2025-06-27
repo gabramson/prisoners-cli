@@ -1,0 +1,23 @@
+{
+  "name": "prisoners-cli",
+  "version": "1.0.0",
+  "description": "A command line application that processes a parameter named 'prisoners'.",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "prisoners-cli": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "yargs": "^18.0.0"
+  },
+  "keywords": [
+    "command-line",
+    "cli",
+    "prisoners"
+  ],
+  "author": "",
+  "license": "ISC"
+}
