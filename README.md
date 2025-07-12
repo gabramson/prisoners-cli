@@ -24,7 +24,8 @@ node src/index.js [--prisoners <number>] [--strategy <number>] [--factor <number
 prisoners: number of prisoners (default=143)  
 
 strategy (default=1):  
-   1: No optimizations  
+   -1: No optimizations
+   1: Freeze at zero
    2: Stop decrementing count when prisoner's count > prisoners/2  
    3: Delay decrementing. based on count/factor  
    4: Combination of 2 and 3  
