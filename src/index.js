@@ -28,10 +28,7 @@ const getPrisonerResultBase = (state, prisonersIndex) => {
   const currentPrisoner = state.prisoners[prisonersIndex];
   const prisonerCount = state.prisoners.length;
   const iterations = state.iterations + 1;
-  if (currentPrisoner.prisonerCount === 0){
-    return {...state, iterations: iterations + 1};
-  }
-  if (!state.isSwitchOn){
+  if (!state.isSwitchOn && currentPrisoner.prisonerCount > 0) {
     const prisoners = [
       ...state.prisoners.slice(0, prisonersIndex),
       makePrisonerInfo(currentPrisoner.prisonerCount - 1, 0),
@@ -49,6 +46,15 @@ const getPrisonerResultBase = (state, prisonersIndex) => {
     const allCounted = newPrisoner.prisonerCount === prisonerCount;
     return {prisoners: prisoners, isSwitchOn: false, allCounted: allCounted, iterations: iterations + 1}
   }
+  return {...state, iterations: iterations+1};
+}
+
+const getPrisonerResultZeroCapture = (state, prisonersIndex) => {
+  const currentPrisoner = state.prisoners[prisonersIndex];
+  if (currentPrisoner.prisonerCount === 0) {
+    return {...state, iterations: state.iterations + 1};
+  }
+  return getPrisonerResultBase(state, prisonersIndex);
 }
 
 const isGuaranteedLeader = (state, prisonersIndex) => {
@@ -63,7 +69,7 @@ const getPrisonerResultOptLeader = (state, prisonersIndex) => {
   if (!state.isSwitchOn && isGuaranteedLeader(state, prisonersIndex)) {
     return {...state, iterations: state.iterations + 1}
   }
-  return getPrisonerResultBase(state, prisonersIndex);
+  return getPrisonerResultZeroCapture(state, prisonersIndex);
 }
 
 const getPrisonerResultWithDelay = (factor, state, prisonersIndex) => {
@@ -78,7 +84,7 @@ const getPrisonerResultWithDelay = (factor, state, prisonersIndex) => {
     ];   
     return {...state, prisoners: prisoners, iterations: state.iterations + 1}
   }
-  return getPrisonerResultBase(state, prisonersIndex);
+  return getPrisonerResultZeroCapture(state, prisonersIndex);
 }
 
 const getPrisonerResultWithDelayAndLeader = (factor, state, prisonersIndex) => {
@@ -100,8 +106,11 @@ const argv = yargs(process.argv.slice(2)).parse();
 const prisonersCount = argv.prisoners || 143;
 let getPrisonerResults;
 switch (argv.strategy || 1){
-  case 1:
+  case -1:
     getPrisonerResults = getPrisonerResultBase;
+    break;
+  case 1:
+    getPrisonerResults = getPrisonerResultZeroCapture;
     break;
   case 2:
     getPrisonerResults = getPrisonerResultOptLeader;
